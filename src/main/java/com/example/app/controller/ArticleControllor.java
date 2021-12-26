@@ -37,7 +37,7 @@ public class ArticleControllor {
         Article saved = articleRepository.save(article);
         log.info(saved.toString());
 
-        return "";
+        return "redirect:/articles/" + saved.getId();
 
         // DTO -> Controller -> Entity -> Repository -> save
     }
