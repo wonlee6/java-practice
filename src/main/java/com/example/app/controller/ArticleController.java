@@ -10,13 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
-public class ArticleControllor {
+public class ArticleController {
 
     @Autowired // 스프링 부트가 미리 생성해놓은 객체를 가져다가 자동 연결
     private ArticleRepository articleRepository;
@@ -77,10 +78,8 @@ public class ArticleControllor {
 
     @PostMapping("/articles/update")
     public String update(ArticleForm form) {
-
         // 1. DTO => entity
         Article articleEntity = form.toEntity();
-
         // 2. 엔티티를 디비에 저장
         // 2-1. 디비에서 기존 데이터 가져오기
         Optional<Article> target = articleRepository.findById(articleEntity.getId());
@@ -90,5 +89,18 @@ public class ArticleControllor {
         }
         // 수정 결과 페이지를 리다이렉트
         return "redirect:/articles/" + articleEntity.getId();
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr){
+        // 1. 삭제 대상 가져온다
+        Article target = articleRepository.findById(id).orElse(null);
+        // 2. 대상을 삭제한다
+        if (target != null) {
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("msg", "삭제가 완료되었습니다.");
+        }
+        // 3. 리다이렉트
+        return "redirect:/articles";
     }
 }
