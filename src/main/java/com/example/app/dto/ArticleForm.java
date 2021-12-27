@@ -10,7 +10,7 @@ public class ArticleForm {
 
     private String title;
     private String content;
-
+    private Long id;
 //    public ArticleForm(String title, String content) {
 //        this.title = title;
 //        this.content = content;
@@ -22,9 +22,9 @@ public class ArticleForm {
 //                "title='" + title + '\'' +
 //                ", content='" + content + '\'' +
 //                '}';
-//    }
+//    }w
 
     public Article toEntity() {
-        return new Article(null, title, content);
+        return new Article(id, title, content);
     }
 }

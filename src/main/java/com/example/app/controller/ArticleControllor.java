@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -72,5 +73,22 @@ public class ArticleControllor {
         model.addAttribute("article", articleEntity);
         // view page
         return "articles/edit";
+    }
+
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form) {
+
+        // 1. DTO => entity
+        Article articleEntity = form.toEntity();
+
+        // 2. 엔티티를 디비에 저장
+        // 2-1. 디비에서 기존 데이터 가져오기
+        Optional<Article> target = articleRepository.findById(articleEntity.getId());
+        // 2-2. 기존 데이터가 있다면 값을 갱신
+        if (target != null) {
+            articleRepository.save(articleEntity);
+        }
+        // 수정 결과 페이지를 리다이렉트
+        return "redirect:/articles/" + articleEntity.getId();
     }
 }
