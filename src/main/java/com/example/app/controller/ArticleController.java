@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -46,7 +45,6 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}")
     public String show(@PathVariable Long id, Model model) {
-        log.info("id + : " + id);
 
         // 1. id 가져옴
         Article articleEntity = articleRepository.findById(id).orElse(null);
@@ -82,7 +80,7 @@ public class ArticleController {
         Article articleEntity = form.toEntity();
         // 2. 엔티티를 디비에 저장
         // 2-1. 디비에서 기존 데이터 가져오기
-        Optional<Article> target = articleRepository.findById(articleEntity.getId());
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
         // 2-2. 기존 데이터가 있다면 값을 갱신
         if (target != null) {
             articleRepository.save(articleEntity);
