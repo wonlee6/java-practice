@@ -442,7 +442,17 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder=trace
 # 유니크 URL 생성 x
 spring.datasource.generate-unique-name=false
 # 고정 URL 확인
-spring.datasource.url=jdbc:h2:mem:testdb
+# spring.datasource.url=jdbc:h2:mem:testdb
+
+# mysql
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/firstTest
+spring.datasource.username=root
+spring.datasource.password=root1234
+
+spring.sql.init.data-locations=classpath:/data.sql
+spring.sql.init.mode=never
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 작업을 수월하게 진행할 수 있도록 설정한 내용들
